@@ -1,0 +1,25 @@
+{
+  "name": "library-manager",
+  "version": "0.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "dateformat": "^3.0.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "method-override": "^3.0.0",
+    "mongodb": "^3.1.1",
+    "morgan": "~1.9.0",
+    "nodemon": "^1.18.3",
+    "path": "^0.12.7",
+    "pug": "2.0.0-beta11",
+    "sequelize": "^4.38.0",
+    "sequelize-cli": "^4.0.0",
+    "sqlite3": "^4.0.2"
+  }
+}
