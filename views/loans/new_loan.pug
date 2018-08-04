@@ -3,6 +3,9 @@ block content
     include ../nav
     body
       h1 New Loan
+
+      include ../errors
+      
       form(method='POST', action='/loans')
         p
           label(for='book_id') Book

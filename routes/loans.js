@@ -91,8 +91,31 @@ router.post('/', function(req, res, next) {
 	Loans.create(req.body).then(function(loan) {
 		res.redirect('/loans');
 	}).catch(function(err) {
-    	res.sendStatus(500);
-  	});
+    	if(err.name === "SequelizeValidationError") {
+		  Books.findAll().then(function(books) {
+		    Patrons.findAll().then(function(patrons) {
+			var loanedOn = moment().format('YYYY-MM-DD');
+			var returnBy = moment().add('7', 'days').format('YYYY-MM-DD');
+
+			res.render('loans/new_loan', 
+			{
+				books : books, 
+				patrons: patrons, 
+				loanedOn: loanedOn,
+				returnBy: returnBy,
+				errors: err.errors
+			});
+
+		    }).catch(function(err) {
+    		  res.sendStatus(500);
+  		  });
+	     });	
+		} else {
+			throw err;
+		}
+  	}).catch(function(err) {
+		res.sendStatus(500);
+	})
 });
 
 //GET /loans/:id - Return Book

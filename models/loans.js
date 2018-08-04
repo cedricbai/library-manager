@@ -10,8 +10,22 @@ module.exports = function(sequelize, DataTypes) {
     },
     book_id: DataTypes.INTEGER,
     patron_id: DataTypes.INTEGER,
-    loaned_on: DataTypes.DATEONLY,
-    return_by: DataTypes.DATEONLY,
+    loaned_on: {
+      type: DataTypes.DATEONLY,
+      validate: {
+        notEmpty: {
+          msg: "Loaned on date is required"
+        }
+      }
+    },
+    return_by: {
+      type: DataTypes.DATEONLY,
+      validate: {
+        notEmpty: {
+          msg: "Due date is required"
+        }
+      }
+    },
     returned_on: DataTypes.DATEONLY
   }, 
   {
