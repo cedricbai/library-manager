@@ -35,9 +35,12 @@ block content
             td= loan.Book.title
             td
               a(href="/patrons/" + loan.Patron.id)= loan.Patron.first_name
-            td= loan.loanedOn()
-            td= loan.returnBy()
-            td= loan.returned_on
+            td= moment(loan.loaned_on).format("YYYY-MM-DD")
+            td= moment(loan.return_by).format("YYYY-MM-DD")
+            if !loan.returned_on
+                td= loan.returned_on
+            else
+                td= moment(loan.returned_on).format("YYYY-MM-DD")
             td
                 if !loan.returned_on
                   a.button(href='/loans/' + loan.id) Return Book

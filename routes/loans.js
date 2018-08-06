@@ -134,8 +134,8 @@ router.get('/:id', function(req, res, next) {
 				returned_on: moment().format('YYYY-MM-DD')
 			});
 		}).catch(function(err) {
-    		res.sendStatus(500);
-  		});
+		res.sendStatus(500);
+	})
 });
 
 //PUT /loans/:id - Return Book - Update 
@@ -145,8 +145,28 @@ router.put('/:id', function(req, res, next) {
 	}).then(function() {
 		res.redirect('/loans');
 	}).catch(function(err) {
-    	res.sendStatus(500);
-  	});
+    	if(err.name === "SequelizeValidationError") {
+    		Loans.belongsTo(Books, {foreignKey: 'book_id'});
+	       Loans.belongsTo(Patrons, {foreignKey: 'patron_id'});
+	        Loans.findAll({
+			 where: {id: req.params.id},
+			 include: [
+				  		{model: Books,required: true}, 
+				  		{model: Patrons,required: true}
+				 	 ]
+		     }).then(function(data) {
+			   res.render('loans/return_book', {
+				 loan: data,
+				 returned_on: moment().format('YYYY-MM-DD'),
+				 errors: err.errors
+			 });
+		   })
+    	} else {
+    		throw err;
+    	}
+  	}).catch(function(err) {
+		res.sendStatus(500);
+	})
 });
 
 
